@@ -1,0 +1,12 @@
+SQL:
+CREATE TABLE `sensor_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sensor` varchar(20) NOT NULL,
+  `location` varchar(20) NOT NULL,
+  `temperature` varchar(20) NOT NULL,
+  `humidity` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
