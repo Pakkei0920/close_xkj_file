@@ -9,12 +9,13 @@ struct pms5003data {
 struct pms5003data data;
 
 void setup() {
-  Serial.begin(115200); 
-  Serial1.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  Serial.begin(115200); // our debugging output
+  Serial1.begin(9600, SERIAL_8N1, RXD2, TXD2); // Set up UART connection
 }
 
 void loop() {
   if (readPMSdata(&Serial1)) {
+
     uint16_t pm1 = data.pm10_standard;
     uint16_t pm25 = data.pm25_standard;
     uint16_t pm100 = data.pm100_standard;
@@ -29,6 +30,16 @@ void loop() {
 }
 
 boolean readPMSdata(Stream *s) {
+  if (! s->available()) {
+    return false;
+  }
+  if (s->peek() != 0x42) {
+    s->read();
+    return false;
+  }
+  if (s->available() < 32) {
+    return false;
+  }
   uint8_t buffer[32];
   s->readBytes(buffer, 32);
   uint16_t buffer_u16[15];
